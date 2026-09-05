@@ -6,7 +6,18 @@
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<%- include('partials/nav') %>
+<nav class="topnav">
+  <div class="wrap">
+    <span class="brand">United Transport Solutions — Backend</span>
+    <a href="/potential">Potential Clients</a>
+    <a href="/active">Active Clients</a>
+    <a href="/refused">Refused Clients</a>
+    <a href="/invoices">Invoices</a>
+    <a href="/report">Monthly Report</a>
+    <a href="/clients/new">+ Add Client</a>
+    <form method="POST" action="/logout"><button class="logout">Logout</button></form>
+  </div>
+</nav>
 <main class="wrap">
   <h1><%= title %> <span class="badge <%= category %>"><%= clients.length %></span></h1>
 
