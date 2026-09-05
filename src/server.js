@@ -1,26 +1,23 @@
 // src/server.js
 require('dotenv').config();
-
 const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
 const path = require('path');
-
 const authRoutes = require('./routes/auth');
 const dashboardRoutes = require('./routes/dashboard');
 const invoiceRoutes = require('./routes/invoices');
 const reportRoutes = require('./routes/report');
 const publicApiRoutes = require('./routes/publicApi');
-
 const app = express();
+
+app.set('trust proxy', 1);
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
 // CORS: only the public quote API needs to be reachable from the website's
 // domain. Set ALLOWED_ORIGIN to your website's URL, e.g.
 // https://unitedtransportsolutions.com (no trailing slash).
@@ -30,7 +27,6 @@ app.use(
     origin: process.env.ALLOWED_ORIGIN || '*'
   })
 );
-
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'change-me-in-production',
@@ -42,18 +38,14 @@ app.use(
     }
   })
 );
-
 // Public (no login) routes - must come before dashboard routes
 app.use(publicApiRoutes);
-
 // Everything below requires login (enforced inside each router via requireLogin)
 app.use(authRoutes);
 app.use(invoiceRoutes);
 app.use(reportRoutes);
 app.use(dashboardRoutes);
-
 app.use((req, res) => res.status(404).send('Not found'));
-
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`UTS backend listening on port ${PORT}`);
