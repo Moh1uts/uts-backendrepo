@@ -1,4 +1,3 @@
-// src/routes/auth.js
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
@@ -11,13 +10,20 @@ router.get('/login', (req, res) => {
 
 router.post('/login', async (req, res) => {
   const { email, password } = req.body;
+  console.log('[login] attempt with email:', JSON.stringify(email));
+
   const user = await prisma.adminUser.findUnique({ where: { email } });
-  if (!user) return res.render('login', { error: 'Invalid email or password' });
+  if (!user) {
+    console.log('[login] no user found for that email');
+    return res.render('login', { error: 'Invalid email or password' });
+  }
 
   const ok = await bcrypt.compare(password, user.passwordHash);
+  console.log('[login] password match:', ok);
   if (!ok) return res.render('login', { error: 'Invalid email or password' });
 
   req.session.userId = user.id;
+  console.log('[login] success, session set for user id', user.id);
   res.redirect('/');
 });
 
