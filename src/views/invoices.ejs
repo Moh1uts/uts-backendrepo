@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Invoices — United Transport Solutions</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<%- include('partials/nav') %>
+<main class="wrap">
+  <h1>Invoices (Factures)</h1>
+  <p style="color:var(--navy-soft); margin-top:-10px;">
+    Every invoice ever generated (via "Order arrived") is stored here permanently — this is your data folder.
+  </p>
+
+  <% if (invoices.length === 0) { %>
+    <div class="card">No invoices generated yet.</div>
+  <% } else { %>
+    <table>
+      <thead>
+        <tr><th>Invoice N°</th><th>Client</th><th>Date</th><th>Amount TTC</th><th></th></tr>
+      </thead>
+      <tbody>
+        <% invoices.forEach(inv => { %>
+          <tr>
+            <td><%= inv.invoiceNumber %></td>
+            <td><a class="row-link" href="/clients/<%= inv.clientId %>"><%= inv.client.name %></a></td>
+            <td><%= new Date(inv.createdAt).toLocaleDateString('fr-FR') %></td>
+            <td><%= inv.amountTTC.toFixed(2) %> MAD</td>
+            <td><a href="/invoices/<%= inv.id %>/download">Download PDF</a></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</main>
+</body>
+</html>

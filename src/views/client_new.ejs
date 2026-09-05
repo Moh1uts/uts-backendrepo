@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Add Client — United Transport Solutions</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<%- include('partials/nav') %>
+<main class="wrap">
+  <h1>Add a client (phone / email intake)</h1>
+  <p style="color:var(--navy-soft); margin-top:-10px;">
+    Use this when a client calls or emails directly instead of using the website form.
+    They'll be added to <strong>Potential Clients</strong> and automatically sent the
+    "quote received" confirmation by SMS and email.
+  </p>
+
+  <% if (error) { %><p class="error"><%= error %></p><% } %>
+
+  <form method="POST" action="/clients" class="card">
+    <div class="field-grid">
+      <div><label>Name / Company *</label><input name="name" required></div>
+      <div><label>Phone *</label><input name="phone" required placeholder="+212 6XX XXX XXX"></div>
+      <div><label>Email *</label><input type="email" name="email" required></div>
+      <div>
+        <label>Departure city *</label>
+        <select name="city" required>
+          <option value="Casablanca">Casablanca</option>
+          <option value="Marrakech">Marrakech</option>
+          <option value="Fès">Fès</option>
+          <option value="Tanger">Tanger</option>
+          <option value="Rabat">Rabat</option>
+          <option value="Autre">Autre</option>
+        </select>
+      </div>
+      <div><label>Destination *</label><input name="destination" required></div>
+      <div><label>Preferred shipping date</label><input type="date" name="preferredDate"></div>
+      <div class="full"><label>Nature of goods *</label><input name="nature" required></div>
+      <div><label>Number of packages</label><input type="number" name="packages" min="1"></div>
+      <div><label>Gross weight (kg)</label><input type="number" name="weightKg" min="0"></div>
+      <div><label>Volume (m³)</label><input name="volume"></div>
+      <div><label>ICE (if company)</label><input name="ice"></div>
+      <div class="full"><label>Notes</label><textarea name="notes"></textarea></div>
+    </div>
+    <button class="btn" type="submit" style="margin-top:16px;">Add client &amp; send confirmation</button>
+  </form>
+</main>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Monthly Report — United Transport Solutions</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<%- include('partials/nav') %>
+<main class="wrap">
+  <h1>Monthly Report — <%= label %></h1>
+
+  <form method="GET" action="/report" style="margin-bottom:20px;">
+    <input type="month" name="month" value="<%= monthParam %>" onchange="this.form.submit()">
+  </form>
+
+  <div class="stat-row">
+    <div class="stat"><div class="num"><%= invoices.length %></div><div class="label">ORDERS DELIVERED</div></div>
+    <div class="stat"><div class="num"><%= totalRevenue.toFixed(0) %> MAD</div><div class="label">TOTAL REVENUE (TTC)</div></div>
+    <div class="stat"><div class="num"><%= counts.shipped %></div><div class="label">SHIPPED</div></div>
+    <div class="stat"><div class="num"><%= counts.late %></div><div class="label">LATE</div></div>
+    <div class="stat"><div class="num"><%= counts.problem %></div><div class="label">PROBLEMS</div></div>
+    <div class="stat"><div class="num"><%= counts.cancelled %></div><div class="label">CANCELLED</div></div>
+  </div>
+
+  <a class="btn" href="/report/download?month=<%= monthParam %>">Download PDF report</a>
+
+  <h2>Invoices this month</h2>
+  <% if (invoices.length === 0) { %>
+    <div class="card">No invoices this month.</div>
+  <% } else { %>
+    <table>
+      <thead><tr><th>Invoice N°</th><th>Client</th><th>Date</th><th>Amount TTC</th></tr></thead>
+      <tbody>
+        <% invoices.forEach(inv => { %>
+          <tr>
+            <td><%= inv.invoiceNumber %></td>
+            <td><%= inv.clientName %></td>
+            <td><%= new Date(inv.createdAt).toLocaleDateString('fr-FR') %></td>
+            <td><%= inv.amountTTC.toFixed(2) %> MAD</td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</main>
+</body>
+</html>
