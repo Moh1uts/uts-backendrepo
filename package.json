@@ -5,10 +5,8 @@
   "main": "src/server.js",
   "scripts": {
     "dev": "node src/server.js",
-    "start": "node src/server.js",
+    "start": "npx prisma db push --accept-data-loss && node scripts/seed-admin.js && node src/server.js",
     "seed": "node scripts/seed-admin.js",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate deploy",
     "postinstall": "prisma generate"
   },
   "dependencies": {
@@ -21,10 +19,8 @@
     "express-session": "^1.18.0",
     "nodemailer": "^6.9.14",
     "pdfkit": "^0.15.0",
+    "prisma": "^5.20.0",
     "twilio": "^5.2.2"
-  },
-  "devDependencies": {
-    "prisma": "^5.20.0"
   },
   "engines": {
     "node": ">=18.0.0"
